@@ -1,5 +1,6 @@
 # -*- coding: utf-8-*-
 __author__ = 'mzmey'
+import hashlib
 
 class MyHash:
 
@@ -25,17 +26,29 @@ class MyHash:
                     new_line += 'е'
                 else:
                     new_line += line[cur]
+            coded_line = new_line.encode(encoding='utf-8')
             # inserting
+            """
             if self.table.get(new_line[0]) is None:
                 self.table[new_line[0]] = []
             self.table[new_line[0]].append(line)
-
+            """
+            m = hashlib.md5()
+            m.update(coded_line)
+            key = m.hexdigest()
+            if self.table.get(key) is None:
+                self.table[key] = []
+            self.table[key] = new_line
         f.close()
         
     def has_word(self, word):
-        if self.table.get(word[0]) is None:
+        m = hashlib.md5()
+        coded = word.encode(encoding='utf-8')
+        m.update(coded)
+        key = m.hexdigest()
+        if self.table.get(key) is None:
             return False
-        elif self.table[word[0]].__contains__(word):
+        elif self.table[key].__contains__(word):
             return True
         else:
             return False

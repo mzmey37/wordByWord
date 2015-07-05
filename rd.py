@@ -16,89 +16,140 @@ def copy_path(path):
 
     return copy
 
-
+copy_time = 0
 def jump(list, path, arr, current):
+    global copy_time
     path.append(current)
     i = current[0]
     j = current[1]
-    if path.__len__() < 10:
+    if path.__len__() < 9:
         if not path.__contains__([i + 1, j + 1]) and i + 1 != 5 and j + 1 != 5:
             check_path = copy_path(path)
             check_path.append([i + 1, j + 1])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word += arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i + 1, j + 1])
+                print('\nword', word, 'exists, path is ', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i + 1, j + 1])
 
         if not path.__contains__([i + 1, j]) and i + 1 != 5:
             check_path = copy_path(path)
             check_path.append([i + 1, j])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i + 1, j])
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i + 1, j])
 
         if not path.__contains__([i + 1, j - 1]) and i + 1 != 5 and j - 1 != -1:
             check_path = copy_path(path)
             check_path.append([i + 1, j - 1])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i + 1, j - 1])
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i + 1, j - 1])
 
         if not path.__contains__([i, j - 1]) and j - 1 != -1:
             check_path = copy_path(path)
             check_path.append([i, j - 1])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i, j - 1])
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i, j - 1])
 
         if not path.__contains__([i - 1, j - 1]) and i - 1 != -1 and j - 1 != -1:
             check_path = copy_path(path)
             check_path.append([i - 1, j - 1])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i - 1, j - 1])
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i - 1, j - 1])
 
         if not path.__contains__([i - 1, j]) and i - 1 != -1:
             check_path = copy_path(path)
             check_path.append([i - 1, j])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i - 1, j])
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i - 1, j])
 
         if not path.__contains__([i - 1, j + 1]) and i - 1 != -1 and j + 1 != 5:
             check_path = copy_path(path)
             check_path.append([i - 1, j + 1])
+            start = time.time()
             word = ''
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
-            jump(list, copy_path(path), arr, [i - 1, j + 1])
+            if list.has_word(word):
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i - 1, j + 1])
 
         if not path.__contains__([i, j + 1]) and j + 1 != 5:
             check_path = copy_path(path)
             check_path.append([i, j + 1])
             word = ''
+            start = time.time()
             for letter in check_path:
                 word = word + arr[letter[0]][letter[1]]
             if list.has_word(word):
-                print('word', word, 'exists')
-            jump(list, copy_path(path), arr, [i, j + 1])
+                print('\nword', word, 'exists', end='')
+                for elem in check_path:
+                    print(elem, end='->')
+            end = time.time()
+            copy_time += end - start
+            check_path.pop()
+            jump(list, check_path, arr, [i, j + 1])
 
 
 table = hash.MyHash()
@@ -108,6 +159,10 @@ end_time = time.time()
 print('initialising time is', 1000 * (end_time - start_time))
 arr = search.getTable()
 start_time = time.time()
-jump(table, [], arr, [0, 0])
+for i in range(5):
+    for j in range(5):
+        print('\nstarts in "', arr[i][j], '"\n===================================================================================================\n', sep='')
+        jump(table, [], arr, [i, j])
 end_time = time.time()
 print('working time is', 1000 * (end_time - start_time))
+print(copy_time, 'is measured time')
