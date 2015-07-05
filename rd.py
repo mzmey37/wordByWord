@@ -1,12 +1,13 @@
-# -*- coding: cp1251-*-
+# -*- coding: utf-8-*-
 __author__ = 'mzmey'
 
 import search
+import hash
+import time
 
 
-def copyPath(path):
+def copy_path(path):
     copy = []
-
     for i in range(path.__len__()):
         copy.append([])
     for j in range(path.__len__()):
@@ -15,63 +16,98 @@ def copyPath(path):
 
     return copy
 
+
 def jump(list, path, arr, current):
     path.append(current)
     i = current[0]
     j = current[1]
-    print('\npath = ', end='')
-    for k in range(path.__len__()):
-            print(path[k], '->', end='', sep='')
     if path.__len__() < 10:
-        if not path.__contains__([i + 1, j + 1]):
-            if i + 1 != 5 and j + 1 != 5:
-                jump(list, copyPath(path), arr, [i + 1, j + 1])
+        if not path.__contains__([i + 1, j + 1]) and i + 1 != 5 and j + 1 != 5:
+            check_path = copy_path(path)
+            check_path.append([i + 1, j + 1])
+            word = ''
+            for letter in check_path:
+                word += arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i + 1, j + 1])
 
-        if not path.__contains__([i + 1, j]):
-            if i + 1 != 5:
-                jump(list, copyPath(path), arr, [i + 1, j])
+        if not path.__contains__([i + 1, j]) and i + 1 != 5:
+            check_path = copy_path(path)
+            check_path.append([i + 1, j])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i + 1, j])
 
-        if not path.__contains__([i + 1, j - 1]):
-            if i + 1 != 5 and j - 1 != -1:
-                jump(list, copyPath(path), arr, [i + 1, j - 1])
+        if not path.__contains__([i + 1, j - 1]) and i + 1 != 5 and j - 1 != -1:
+            check_path = copy_path(path)
+            check_path.append([i + 1, j - 1])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i + 1, j - 1])
 
-        if not path.__contains__([i, j - 1]):
-            if j - 1 != -1:
-                jump(list, copyPath(path), arr, [i, j - 1])
+        if not path.__contains__([i, j - 1]) and j - 1 != -1:
+            check_path = copy_path(path)
+            check_path.append([i, j - 1])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i, j - 1])
 
-        if not path.__contains__([i - 1, j - 1]):
-            if i - 1 != -1 and j - 1 != -1:
-                jump(list, copyPath(path), arr, [i - 1, j - 1])
+        if not path.__contains__([i - 1, j - 1]) and i - 1 != -1 and j - 1 != -1:
+            check_path = copy_path(path)
+            check_path.append([i - 1, j - 1])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i - 1, j - 1])
 
-        if not path.__contains__([i - 1, j]):
-            if i - 1 != -1:
-                jump(list, copyPath(path), arr, [i - 1, j])
+        if not path.__contains__([i - 1, j]) and i - 1 != -1:
+            check_path = copy_path(path)
+            check_path.append([i - 1, j])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i - 1, j])
 
-        if not path.__contains__([i - 1, j + 1]):
-            if i - 1 != -1 and j + 1 != 5:
-                jump(list, copyPath(path), arr, [i - 1, j + 1])
+        if not path.__contains__([i - 1, j + 1]) and i - 1 != -1 and j + 1 != 5:
+            check_path = copy_path(path)
+            check_path.append([i - 1, j + 1])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            jump(list, copy_path(path), arr, [i - 1, j + 1])
 
-        if not path.__contains__([i, j + 1]):
-            if j + 1 != 5:
-                jump(list, copyPath(path), arr, [i, j + 1])
-        #for k in range(path.__len__()):
-            #print(path[k], '->', end='', sep='')
+        if not path.__contains__([i, j + 1]) and j + 1 != 5:
+            check_path = copy_path(path)
+            check_path.append([i, j + 1])
+            word = ''
+            for letter in check_path:
+                word = word + arr[letter[0]][letter[1]]
+            if list.has_word(word):
+                print('word', word, 'exists')
+            jump(list, copy_path(path), arr, [i, j + 1])
 
 
-class MyMap:
-    first = ['а', '�', '�', '�', '�''�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�', '�',
-             '�', '�', '�', '�', '�', '�', '�', '�', '�', '�']
-    word = []
-
-f = open('zdb-win.txt', 'rt', encoding='cp1251')
-list = []
-for line in f:
-    for l in range(line.__len__()):
-        if line[0] == ' ':
-            line = line[1:line.__len__()]
-    if line[line.__len__() - 1] == '\n':
-        line = line[0:line.__len__() - 1]
-    list.append(line)
-
+table = hash.MyHash()
+start_time = time.time()
+table.init()
+end_time = time.time()
+print('initialising time is', 1000 * (end_time - start_time))
 arr = search.getTable()
-jump(list, [], arr, [0, 0])
+start_time = time.time()
+jump(table, [], arr, [0, 0])
+end_time = time.time()
+print('working time is', 1000 * (end_time - start_time))
