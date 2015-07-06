@@ -25,7 +25,7 @@ def jump(list, path, arr, current):
     path.append(current)
     i = current[0]
     j = current[1]
-    if path.__len__() < 10:
+    if path.__len__() < 8:
         for cell in around:
             place = [i + cell[0], j + cell[1]]
             if not path.__contains__([place[0], place[1]]) and -1 < place[0] < 5 and -1 < place[1] < 5:
@@ -50,15 +50,31 @@ print('initialising time is', 1000 * (end_time - start_time))
 arr = search.getTable()
 start_time = time.time()
 t = []
+
+def go(i1, i2, j1, j2):
+    for i in range(i2):
+        if i >= i1:
+            for j in range(j2):
+                if j >= j1:
+                    jump(table, [], arr, [i, j])
+
+t.append(threading.Thread(target=go, args=(0, 3, 0, 3)))
+t[t.__len__() - 1].start()
+t.append(threading.Thread(target=go, args=(3, 5, 3, 5)))
+t[t.__len__() - 1].start()
+t.append(threading.Thread(target=go, args=(0, 3, 3, 5)))
+t[t.__len__() - 1].start()
+t.append(threading.Thread(target=go, args=(3, 5, 0, 3)))
+t[t.__len__() - 1].start()
+for i in range(t.__len__()):
+    t[i].join()
+'''
 for i in range(5):
     for j in range(5):
         print('\n===================================================================='
               '===============================\nstarts in "', arr[i][j], '"', sep='')
-        t.append(threading.Thread(target=jump, args=(table, [], arr, [i, j])))
-        t[t.__len__() - 1].start()
-for i in range(t.__len__()):
-    t[i].join()
-
+        jump(table, [], arr, [i, j])
+'''
 end_time = time.time()
 print('working time is', 1000 * (end_time - start_time))
 print(copy_time * 1000, 'is measured time')

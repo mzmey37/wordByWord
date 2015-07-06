@@ -1,10 +1,10 @@
-# -*- coding: cp1251 -*-
+# -*- coding: utf-8 -*-
 
 __author__ = 'mzmey'
 
 def getTable():
     t = []
-    f = open('example', 'rt')
+    f = open('example', 'rt', encoding='utf-8')
     for i in range(5):
         t.append([])
     k = 0
@@ -14,4 +14,6 @@ def getTable():
         for l in i:
             t[k].append(l)
         k += 1
+    for i in t:
+        print(i)
     return t
