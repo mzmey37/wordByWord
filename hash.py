@@ -6,7 +6,7 @@ class MyHash:
 
     table = {}
 
-    def init(self):
+    def __init__(self):
         if self.table.get('р') is None:
             print(self.table)
         f = open('zdb-win.txt', 'rt', encoding='cp1251')

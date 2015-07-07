@@ -14,6 +14,4 @@ def getTable():
         for l in i:
             t[k].append(l)
         k += 1
-    for i in t:
-        print(i)
     return t
