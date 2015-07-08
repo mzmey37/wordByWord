@@ -1,28 +1,41 @@
 # -*- coding: utf-8-*-
 __author__ = 'MZmey'
 from tkinter import *
-import search, founder
+import search, founder, tkinter.ttk as ttk, time
 
 
 class WordTable:
     pointer = {}
+    progr = None
+    wordList = None
     table = None
     canG = [[], [], [], [], []]
     canV = [[], [], [], [], []]
     canD = [[], [], [], [], []]
 
     def shower(self, event):
-        event.widget.config(text=self.pointer[event.widget.winfo_id()])
+        self.progr.pack()
+        self.progr.start(7)
+        getter = founder.Founder()
+        res = getter.calculate()
+        self.progr.stop()
+        self.progr.destroy()
+        self.wordList.pack()
+        text = ''
+        for word in res.words:
+            text = text + word + '\n'
 
     def __init__(self):
         frameR = Frame(self.root, height=200, width=1000, bd=20, bg='white')
         frameL = Frame(self.root, height=200, width=1000, bd=20, bg='white')
-        bt_show = Button(frameL)
+        bt_show = Button(frameL, text='show words')
         bt_show.bind('<Button-1>', self.shower)
-        bt_show.grid(row=1, column=1)
+        bt_show.pack()
         label = Label(frameL, text='chose\nthe word', font='Arial 14')
         label.bind('<Button-1>', self.shower)
-        label.grid(row=2, column=1)
+        label.pack()
+        self.progr = ttk.Progressbar(frameL, orient='horizontal')
+        self.wordList = Label(frameL, font='Arial 14')
         frameR.grid(row=1, column=2)
         frameL.grid(row=1, column=1)
         for i in range(5):

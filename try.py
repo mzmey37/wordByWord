@@ -2,7 +2,7 @@
 
 __author__ = 'mzmey'
 
-t = []
-for i in range(4):
-    t.append()
+t = ''
+t = t + 'a '
+t = t + 'b'
 print(t)

@@ -2,6 +2,11 @@
 __author__ = 'mzmey'
 
 import search, threading, hash, time
+
+class Res:
+    words = []
+    pathes = []
+
 class Founder:
     around = [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]
 
@@ -29,7 +34,8 @@ class Founder:
                     for letter in check_path:
                         word += arr[letter[0]][letter[1]]
                     if list.has_word(word):
-                        res.append([word, check_path])
+                        res.words.append(word)
+                        res.pathes.append(check_path)
                     check_path.pop()
                     self.jump(list, check_path, arr, place, res)
     '''
@@ -54,8 +60,12 @@ class Founder:
     def calculate(self):
         table = hash.MyHash()
         arr = search.getTable()
-        res = []
+        res = Res
         for i in range(5):
             for j in range(5):
                 self.jump(table, [], arr, [i, j], res)
         return res
+
+f = Founder()
+r = f.calculate()
+print(r.words.__len__())
