@@ -24,7 +24,7 @@ class Founder:
         path.append(current)
         i = current[0]
         j = current[1]
-        if path.__len__() < 8:
+        if path.__len__() < 5:
             for cell in self.around:
                 place = [i + cell[0], j + cell[1]]
                 if not path.__contains__([place[0], place[1]]) and -1 < place[0] < 5 and -1 < place[1] < 5:
@@ -58,14 +58,13 @@ class Founder:
         t[i].join()
     '''
     def calculate(self):
+
         table = hash.MyHash()
         arr = search.getTable()
         res = Res
         for i in range(5):
             for j in range(5):
                 self.jump(table, [], arr, [i, j], res)
+
         return res
 
-f = Founder()
-r = f.calculate()
-print(r.words.__len__())

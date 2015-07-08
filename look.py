@@ -1,8 +1,7 @@
 # -*- coding: utf-8-*-
 __author__ = 'MZmey'
 from tkinter import *
-import search, founder, tkinter.ttk as ttk, time
-
+import search, founder, tkinter.ttk as ttk, time, threading
 
 class WordTable:
     pointer = {}
@@ -13,29 +12,28 @@ class WordTable:
     canV = [[], [], [], [], []]
     canD = [[], [], [], [], []]
 
+    def threader(self):
+        res = founder.Founder().calculate()
+        for word in res.words:
+            self.wordList.insert(END, word)
+        self.progr.destroy()
+        self.wordList.pack()
+
     def shower(self, event):
         self.progr.pack()
         self.progr.start(7)
-        getter = founder.Founder()
-        res = getter.calculate()
-        self.progr.stop()
-        self.progr.destroy()
-        self.wordList.pack()
-        text = ''
-        for word in res.words:
-            text = text + word + '\n'
+        threading.Thread(target=self.threader).start()
 
     def __init__(self):
         frameR = Frame(self.root, height=200, width=1000, bd=20, bg='white')
         frameL = Frame(self.root, height=200, width=1000, bd=20, bg='white')
         bt_show = Button(frameL, text='show words')
-        bt_show.bind('<Button-1>', self.shower)
         bt_show.pack()
+        bt_show.bind('<Button-1>', self.shower)
         label = Label(frameL, text='chose\nthe word', font='Arial 14')
-        label.bind('<Button-1>', self.shower)
         label.pack()
         self.progr = ttk.Progressbar(frameL, orient='horizontal')
-        self.wordList = Label(frameL, font='Arial 14')
+        self.wordList = Listbox(frameL, selectmode=SINGLE, height=30)
         frameR.grid(row=1, column=2)
         frameL.grid(row=1, column=1)
         for i in range(5):
@@ -47,7 +45,7 @@ class WordTable:
         self.table = search.getTable()
         for i in range(5):
             for j in range(5):
-                label = Button(frameR, text=self.table[i][j].upper(), font='Arial 45', bg='white', height=2, width=2)
+                label = Button(frameR, text=self.table[i][j].upper(), font='Arial 45', bg='white', height=1, width=1)
                 label.grid(row=i * 2, column=(j * 2))
                 self.pointer[label.winfo_id()] = [i, j]
                 label.bind('<Button-1>', self.shower)
