@@ -1,7 +1,7 @@
 # -*- coding: utf-8-*-
 __author__ = 'MZmey'
 from tkinter import *
-import search, founder, tkinter.ttk as ttk, time, threading
+import search, founder, tkinter.ttk as ttk, threading
 
 class WordTable:
     pointer = {}
@@ -11,6 +11,11 @@ class WordTable:
     canG = [[], [], [], [], []]
     canV = [[], [], [], [], []]
     canD = [[], [], [], [], []]
+
+    def listReader(self, event):
+        id = self.wordList.curselection()[0]
+        res = self.wordList.get(id, id)[0]
+        print(res)
 
     def threader(self):
         res = founder.Founder().calculate()
@@ -34,6 +39,7 @@ class WordTable:
         label.pack()
         self.progr = ttk.Progressbar(frameL, orient='horizontal')
         self.wordList = Listbox(frameL, selectmode=SINGLE, height=30)
+        self.wordList.bind('<Double-Button-1>', self.listReader)
         frameR.grid(row=1, column=2)
         frameL.grid(row=1, column=1)
         for i in range(5):
