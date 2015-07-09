@@ -5,22 +5,104 @@ import search, founder, tkinter.ttk as ttk, threading
 
 class WordTable:
     pointer = {}
+    btShow = None
     progr = None
     wordList = None
+    pathList = []
+    letter = [[], [], [], [], []]
     table = None
+    idInNumber = {}
     canG = [[], [], [], [], []]
     canV = [[], [], [], [], []]
     canD = [[], [], [], [], []]
 
+    def drawer(self, path):
+        print(path)
+        for i in range(5):
+            for j in range(5):
+                self.letter[i][j].configure(bg='white')
+                if self.canD[i][j] is not None:
+                    for item in self.canD[i][j].find_all():
+                        self.canD[i][j].delete(item)
+
+                if self.canV[i][j] is not None:
+                    for item in self.canV[i][j].find_all():
+                        self.canV[i][j].delete(item)
+
+                if self.canG[i][j] is not None:
+                    for item in self.canG[i][j].find_all():
+                        self.canG[i][j].delete(item)
+
+        self.letter[path[0][0]][path[0][1]].configure(bg='orange')
+        for i in range(path.__len__() - 1):
+            self.letter[path[i + 1][0]][path[i + 1][1]].configure(bg='orange')
+            # diagonal
+            if path[i][0] != path[i + 1][0] and path[i][1] != path[i + 1][1]:
+                if path[i][0] < path[i + 1][0]:
+                    if path[i][1] < path[i + 1][1]:
+                        i0 = path[i][0]
+                        i1 = path[i][1]
+                        self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(56, 0, 66, 10, 66, 0, fill='orange')
+                        self.canG[i0][i1 + 1].create_polygon(0, 0, 0, 10, 10, 10, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, 86, 10, 96, 0, 96, fill='orange')
+                        self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 10, 10, 0, fill='orange')
+                        print([i0, i1])
+                    else:
+                        i0 = path[i][0]
+                        i1 = path[i + 1][1]
+                        self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(66, 0, 56, 10, 66, 10, fill='orange')
+                        self.canG[i0][i1 + 1].create_polygon(0, 0, 10, 0, 0, 10, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, 96, 10, 96, 10, 86, fill='orange')
+                        self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 0, 0, 10, fill='orange')
+                        print([i0, i1])
+                else:
+                    if path[i][1] < path[i + 1][1]:
+                        i0 = path[i + 1][0]
+                        i1 = path[i][1]
+                        self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(56, 10, 66, 10, 66, 0, fill='orange')
+                        self.canG[i0][i1 + 1].create_polygon(0, 10, 10, 0, 0, 0, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, 96, 10, 86, 10, 96, fill='orange')
+                        self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 0, 0, 10, fill='orange')
+                        print([i0, i1])
+                    else:
+                        i0 = path[i + 1][0]
+                        i1 = path[i + 1][1]
+                        self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(56, 0, 66, 10, 66, 0, fill='orange')
+                        self.canG[i0][i1 + 1].create_polygon(0, 0, 10, 10, 0, 10, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, 86, 10, 96, 0, 96, fill='orange')
+                        self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 10, 10, 0, fill='orange')
+                        print([i0, i1])
+            elif path[i][0] == path[i + 1][0]:
+                if path[i][1] < path[i + 1][1]:
+                    self.canV[path[i][0]][path[i][1]].create_polygon(0, 40, 0, 55, 10, 55, 10, 40, fill='orange')
+                else:
+                    self.canV[path[i][0]][path[i + 1][1]].create_polygon(0, 40, 0, 55, 10, 55, 10, 40, fill='orange')
+            else:
+                if path[i][0] < path[i + 1][0]:
+                    self.canG[path[i][0]][path[i][1]].create_polygon(25, 0, 41, 0, 41, 10, 25, 10, fill='orange')
+                else:
+                    self.canG[path[i + 1][0]][path[i + 1][1]].create_polygon(25, 0, 41, 0, 41, 10, 25, 10, fill='orange')
+        self.letter[path[0][0]][path[0][1]].configure(bg='#D2691E')
+
     def listReader(self, event):
         id = self.wordList.curselection()[0]
         res = self.wordList.get(id, id)[0]
-        print(res)
+        print(self.pathList[self.idInNumber[id]], ', word is', res)
+        self.drawer(self.pathList[self.idInNumber[id]])
 
     def threader(self):
         res = founder.Founder().calculate()
+        k = 0
         for word in res.words:
             self.wordList.insert(END, word)
+            self.idInNumber[self.wordList.size() - 1] = k
+            k += 1
+        for path in res.pathes:
+            self.pathList.append(path)
         self.progr.destroy()
         self.wordList.pack()
 
@@ -32,9 +114,9 @@ class WordTable:
     def __init__(self):
         frameR = Frame(self.root, height=200, width=1000, bd=20, bg='white')
         frameL = Frame(self.root, height=200, width=1000, bd=20, bg='white')
-        bt_show = Button(frameL, text='show words')
-        bt_show.pack()
-        bt_show.bind('<Button-1>', self.shower)
+        self.btShow = Button(frameL, text='show words')
+        self.btShow.pack()
+        self.btShow.bind('<Button-1>', self.shower)
         label = Label(frameL, text='chose\nthe word', font='Arial 14')
         label.pack()
         self.progr = ttk.Progressbar(frameL, orient='horizontal')
@@ -51,16 +133,16 @@ class WordTable:
         self.table = search.getTable()
         for i in range(5):
             for j in range(5):
-                label = Button(frameR, text=self.table[i][j].upper(), font='Arial 45', bg='white', height=1, width=1)
-                label.grid(row=i * 2, column=(j * 2))
+                self.letter[i].append(Button(frameR, text=self.table[i][j].upper(), font='Arial 36', bg='white',
+                                             height=1, width=2))
+                self.letter[i][j].grid(row=i * 2, column=(j * 2))
                 self.pointer[label.winfo_id()] = [i, j]
-                label.bind('<Button-1>', self.shower)
-                self.canD[i][j] = Canvas(frameR, width=15, height=15, bg='blue')
+                self.canD[i][j] = Canvas(frameR, width=10, height=10)
                 self.canD[i][j].grid(row=2 * i + 1, column=2 * j + 1)
-                self.canG[i][j] = Canvas(frameR, width=15, height=82, bg='green')
-                self.canG[i][j].grid(row=2 * i, column=2 * j + 1)
-                self.canV[i][j] = Canvas(frameR, width=68, height=15, bg='red')
-                self.canV[i][j].grid(row=2 * i + 1, column=2 * j)
+                self.canV[i][j] = Canvas(frameR, width=10, height=96)
+                self.canV[i][j].grid(row=2 * i, column=2 * j + 1)
+                self.canG[i][j] = Canvas(frameR, width=66, height=10)
+                self.canG[i][j].grid(row=2 * i + 1, column=2 * j)
 
     root = Tk()
 
