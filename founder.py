@@ -66,5 +66,15 @@ class Founder:
             for j in range(5):
                 self.jump(table, [], arr, [i, j], res)
 
+        for i in range(res.words.__len__()):
+            for j in range(i, res.words.__len__(), 1):
+                if res.words[i].__len__() < res.words[j].__len__():
+                    tmp = res.words[i]
+                    res.words[i] = res.words[j]
+                    res.words[j] = tmp
+                    tmp = res.pathes[i]
+                    res.pathes[i] = res.pathes[j]
+                    res.pathes[j] = tmp
+
         return res
 

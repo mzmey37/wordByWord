@@ -5,6 +5,8 @@ import search, founder, tkinter.ttk as ttk, threading
 
 class WordTable:
     pointer = {}
+    height = None
+    width = None
     btShow = None
     progr = None
     wordList = None
@@ -43,18 +45,21 @@ class WordTable:
                         i0 = path[i][0]
                         i1 = path[i][1]
                         self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
-                        self.canG[i0][i1].create_polygon(56, 0, 66, 10, 66, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(self.width - 10, 0, self.width, 10, self.width, 0,
+                                                         fill='orange')
                         self.canG[i0][i1 + 1].create_polygon(0, 0, 0, 10, 10, 10, fill='orange')
-                        self.canV[i0][i1].create_polygon(0, 86, 10, 96, 0, 96, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, self.height - 10, 10, self.height, 0, self.height,
+                                                         fill='orange')
                         self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 10, 10, 0, fill='orange')
                         print([i0, i1])
                     else:
                         i0 = path[i][0]
                         i1 = path[i + 1][1]
                         self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
-                        self.canG[i0][i1].create_polygon(66, 0, 56, 10, 66, 10, fill='orange')
+                        self.canG[i0][i1].create_polygon(self.width, 0, self.width - 10, 10, self.width, 10, fill='orange')
                         self.canG[i0][i1 + 1].create_polygon(0, 0, 10, 0, 0, 10, fill='orange')
-                        self.canV[i0][i1].create_polygon(0, 96, 10, 96, 10, 86, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, self.height, 10, self.height, 10, self.height - 10,
+                                                         fill='orange')
                         self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 0, 0, 10, fill='orange')
                         print([i0, i1])
                 else:
@@ -62,30 +67,40 @@ class WordTable:
                         i0 = path[i + 1][0]
                         i1 = path[i][1]
                         self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
-                        self.canG[i0][i1].create_polygon(56, 10, 66, 10, 66, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(self.width - 10, 10, self.width, 10, self.width, 0, fill='orange')
                         self.canG[i0][i1 + 1].create_polygon(0, 10, 10, 0, 0, 0, fill='orange')
-                        self.canV[i0][i1].create_polygon(0, 96, 10, 86, 10, 96, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, self.height, 10, self.height - 10, 10, self.height,
+                                                         fill='orange')
                         self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 0, 0, 10, fill='orange')
                         print([i0, i1])
                     else:
                         i0 = path[i + 1][0]
                         i1 = path[i + 1][1]
                         self.canD[i0][i1].create_polygon(0, 0, 0, 10, 10, 10, 10, 0, fill='orange')
-                        self.canG[i0][i1].create_polygon(56, 0, 66, 10, 66, 0, fill='orange')
+                        self.canG[i0][i1].create_polygon(self.width - 10, 0, self.width, 10, self.width, 0, fill='orange')
                         self.canG[i0][i1 + 1].create_polygon(0, 0, 10, 10, 0, 10, fill='orange')
-                        self.canV[i0][i1].create_polygon(0, 86, 10, 96, 0, 96, fill='orange')
+                        self.canV[i0][i1].create_polygon(0, self.height - 10, 10, self.height, 0, self.height,
+                                                         fill='orange')
                         self.canV[i0 + 1][i1].create_polygon(0, 0, 10, 10, 10, 0, fill='orange')
                         print([i0, i1])
             elif path[i][0] == path[i + 1][0]:
                 if path[i][1] < path[i + 1][1]:
-                    self.canV[path[i][0]][path[i][1]].create_polygon(0, 40, 0, 55, 10, 55, 10, 40, fill='orange')
+                    self.canV[path[i][0]][path[i][1]].create_polygon(0, self.height/2 - 10, 0, self.height/2 + 10, 10,
+                                                                     self.height/2 + 10, 10, self.height/2 - 10,
+                                                                     fill='orange')
                 else:
-                    self.canV[path[i][0]][path[i + 1][1]].create_polygon(0, 40, 0, 55, 10, 55, 10, 40, fill='orange')
+                    self.canV[path[i][0]][path[i + 1][1]].create_polygon(0, self.height/2 - 10, 0, self.height/2 + 10,
+                                                                         10, self.height/2 + 10, 10, self.height/2 - 10,
+                                                                         fill='orange')
             else:
                 if path[i][0] < path[i + 1][0]:
-                    self.canG[path[i][0]][path[i][1]].create_polygon(25, 0, 41, 0, 41, 10, 25, 10, fill='orange')
+                    self.canG[path[i][0]][path[i][1]].create_polygon(self.width/2 - 10, 0, self.width/2 + 10, 0,
+                                                                     self.width/2 + 10, 10, self.width/2 - 10, 10,
+                                                                     fill='orange')
                 else:
-                    self.canG[path[i + 1][0]][path[i + 1][1]].create_polygon(25, 0, 41, 0, 41, 10, 25, 10, fill='orange')
+                    self.canG[path[i + 1][0]][path[i + 1][1]].create_polygon(self.width/2 - 10, 0, self.width/2 + 10, 0,
+                                                                             self.width/2 + 10, 10, self.width/2 - 10,
+                                                                             10, fill='orange')
         self.letter[path[0][0]][path[0][1]].configure(bg='#D2691E')
 
     def listReader(self, event):
@@ -136,12 +151,15 @@ class WordTable:
                 self.letter[i].append(Button(frameR, text=self.table[i][j].upper(), font='Arial 36', bg='white',
                                              height=1, width=2))
                 self.letter[i][j].grid(row=i * 2, column=(j * 2))
+                if i == j == 0:
+                    self.width = self.letter[i][j].winfo_reqwidth()
+                    self.height = self.letter[i][j].winfo_reqheight()
                 self.pointer[label.winfo_id()] = [i, j]
                 self.canD[i][j] = Canvas(frameR, width=10, height=10)
                 self.canD[i][j].grid(row=2 * i + 1, column=2 * j + 1)
-                self.canV[i][j] = Canvas(frameR, width=10, height=96)
+                self.canV[i][j] = Canvas(frameR, width=10, height=self.height)
                 self.canV[i][j].grid(row=2 * i, column=2 * j + 1)
-                self.canG[i][j] = Canvas(frameR, width=66, height=10)
+                self.canG[i][j] = Canvas(frameR, width=self.width, height=10)
                 self.canG[i][j].grid(row=2 * i + 1, column=2 * j)
 
     root = Tk()
