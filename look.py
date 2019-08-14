@@ -1,7 +1,10 @@
 # -*- coding: utf-8-*-
 __author__ = 'MZmey'
 from tkinter import *
-import search, founder, tkinter.ttk as ttk, threading
+import search, founder, tkinter.ttk as ttk
+import new_founder
+import threading
+
 
 class WordTable:
     pointer = {}
@@ -110,7 +113,7 @@ class WordTable:
         self.drawer(self.pathList[self.idInNumber[id]])
 
     def threader(self):
-        res = founder.Founder().calculate()
+        res = new_founder.Founder().calculate(self.letter)
         k = 0
         for word in res.words:
             self.wordList.insert(END, word)
@@ -145,12 +148,11 @@ class WordTable:
                 self.canG[i].append(None)
                 self.canD[i].append(None)
 
-        self.table = search.getTable()
+        self.table = search.get_table()
         for i in range(5):
             for j in range(5):
-                self.letter[i].append(Button(frameR, text=self.table[i][j].upper(), font='Arial 36', bg='white',
-                                             height=1, width=2))
-                self.letter[i][j].grid(row=i * 2, column=(j * 2))
+                self.letter[i].append(Entry(frameR, font='Arial 36', bg='white', width=2))
+                self.letter[i][j].grid(row=i * 2, column=j * 2)
                 if i == j == 0:
                     self.width = self.letter[i][j].winfo_reqwidth()
                     self.height = self.letter[i][j].winfo_reqheight()
@@ -161,9 +163,9 @@ class WordTable:
                 self.canV[i][j].grid(row=2 * i, column=2 * j + 1)
                 self.canG[i][j] = Canvas(frameR, width=self.width, height=10)
                 self.canG[i][j].grid(row=2 * i + 1, column=2 * j)
-
     root = Tk()
 
 
-wt = WordTable()
-wt.root.mainloop()
+if __name__ == '__main__':
+    wt = WordTable()
+    wt.root.mainloop()

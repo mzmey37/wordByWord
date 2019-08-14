@@ -2,7 +2,8 @@
 
 __author__ = 'mzmey'
 
-def getTable():
+
+def get_table():
     t = []
     f = open('example', 'rt', encoding='utf-8')
     for i in range(5):

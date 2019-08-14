@@ -2,6 +2,7 @@
 __author__ = 'mzmey'
 import hashlib
 
+
 class MyHash:
 
     table = {}
