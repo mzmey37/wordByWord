@@ -3,7 +3,7 @@ __author__ = 'MZmey'
 from tkinter import *
 import sys
 import os
-import search, tkinter.ttk as ttk
+import tkinter.ttk as ttk
 import new_founder
 import threading
 
@@ -17,7 +17,6 @@ class WordTable:
     wordList = None
     pathList = []
     letter = [[], [], [], [], []]
-    table = None
     idInNumber = {}
     canG = [[], [], [], [], []]
     canV = [[], [], [], [], []]
@@ -177,7 +176,6 @@ class WordTable:
                 self.canG[i].append(None)
                 self.canD[i].append(None)
 
-        self.table = search.get_table()
         for i in range(5):
             for j in range(5):
                 sv = StringVar()
